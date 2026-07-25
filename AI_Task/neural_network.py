@@ -1,7 +1,25 @@
 # neural_network.py
 
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+import importlib
+
+# pyright: reportMissingModuleSource=false
+
+
+def _load_keras_components():
+    """
+    Load Keras components from TensorFlow or the standalone Keras package.
+    """
+    try:
+        keras_models = importlib.import_module("tensorflow.keras.models")
+        keras_layers = importlib.import_module("tensorflow.keras.layers")
+    except ImportError:
+        keras_models = importlib.import_module("keras.models")
+        keras_layers = importlib.import_module("keras.layers")
+
+    return keras_models.Sequential, keras_layers.Dense
+
+
+Sequential, Dense = _load_keras_components()
 
 
 def build_model():
